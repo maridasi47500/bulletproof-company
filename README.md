@@ -1,8 +1,8 @@
-- bienvenue à Kel est mon ip?
+- bienvenue à Hometown photos
 
-- what is your ip ?
-- download all post from what is my ip site
-- pour ajouter tous les pays et les drapeaux: 
+- ajouter des personne que vous connaisez
+- ajouter leur métier
+- ajouter des photos des personne/ métier à proximité de votre localisation
 ```
 $ python3 addcountry.py
 ```
@@ -17,5 +17,4 @@ $ sh mysite.sh
 - visit http://localhost:8080
 
 
-# you-hack
 # hometown-photos
