@@ -8,11 +8,12 @@ from stylesheet import Css
 import re
 import traceback
 import sys
+from lignecommande import Lignecommande
 
 class Route():
     def __init__(self):
         self.dbUsers=User()
-        self.Program=Directory("Hometown instagram")
+        self.Program=Directory("Beyong practicing")
         self.Program.set_path("./")
         self.mysession={"notice":None,"email":None,"name":None}
         self.render_figure=RenderFigure(self.Program)
@@ -35,6 +36,13 @@ class Route():
         print("set session",x)
         self.Program.set_my_session(x)
         self.render_figure.set_session(self.Program.get_session())
+    def buromusicien(self,search):
+        hi=Lignecommande(myscript="Buro du musicien")
+        hi.ligne(lignecommande="sh monscript/Heythere.sh")
+        hi.run()
+        self.set_notice("ok pour le script")
+        return self.render_some_json("welcome/hey.json")
+
     def set_redirect(self,x):
         self.Program.set_redirect(x)
         self.render_figure.set_redirect(self.Program.get_redirect())
@@ -458,7 +466,7 @@ class Route():
         return self.render_figure.render_figure("ajouter/notebook.html")
 
     def save_user(self,params={}):
-        myparam=self.get_post_data()(params=("username","email","country_id","phone","password","passwordconfirmation"))
+        myparam=self.get_post_data()(params=("sex","username","email","country_id","phone","password","passwordconfirmation"))
         self.user=self.dbUsers.create(myparam)
         if self.user["user_id"]:
             self.set_session(self.user)
@@ -522,6 +530,7 @@ class Route():
             "^/ajouterphotojob/([0-9]+)/([0-9]+)$":self.ajouterphotojob,
             "^/ajouterjob/([0-9]+)$":self.ajouterjob,
             "^/voirphoto/([0-9]+)$":self.voirphoto,
+            '^/buromusicien$': self.buromusicien,
             '^/createjob$': self.createjob,
             '^/createphotojob$': self.createphotojob,
             '^/createphoto$': self.createphoto,

@@ -8,6 +8,7 @@ var map = L.map('map').setView([latitude, longitude], 13);
 btnlocation.dataset.latitude=latitude;
 btnlocation.dataset.longitude=longitude;
 overlay.style.display='block';
+overlay1.style.display='block';
 L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

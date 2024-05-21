@@ -1,0 +1,39 @@
+REM ***** BASIC *****
+
+Sub Main
+Dim msg
+' Get Access to this Impress Document
+oDoc = ThisComponent
+
+' Get a List of all Slides
+oSlideList = oDoc.getDrawPages()
+
+' Get the First Slide
+oSlide = oSlideList.getByName("Slide1")
+' 1st slide - text box 1
+oItem = oSlide.getByIndex(0)
+If oItem.ShapeType = "com.sun.star.presentation.TitleTextShape" Then
+msg = "slide 1 - text 1 : " & oItem.getString & Chr(13)
+End If
+' 1st slide - text box 2
+oItem = oSlide.getByIndex(1)
+If oItem.ShapeType = "com.sun.star.presentation.TitleTextShape" Then
+msg = msg & "slide 1 - text 2 : " & oItem.getString & Chr(13)
+End If
+
+'get the second slide
+oSlide = oSlideList.getByIndex(1)
+' 2nd slide - text box 1
+oItem = oSlide.getByIndex(0)
+If oItem.ShapeType = "com.sun.star.presentation.TitleTextShape" Then
+msg = msg & "slide 2 - text 1 : " & oItem.getString & Chr(13)
+End If
+
+' 2nd slide - text box 2
+oItem = oSlide.getByIndex(1)
+
+If oItem.ShapeType = "com.sun.star.presentation.TitleTextShape" Then
+msg = msg & "slide 2 - text 2 : " & oItem.getString & Chr(13)
+End If
+msgbox msg
+End Sub

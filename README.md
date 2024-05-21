@@ -1,15 +1,15 @@
-- bienvenue à Hometown photos
+- bienvenue à bulletproof musician buro
 
-- ajouter des personne que vous connaisez
-- ajouter leur métier
-- ajouter des photos des personne/ métier à proximité de votre localisation
 ```
 $ python3 addcountry.py
 ```
 - pour ajouter tous les membres de famille
 ```
-$ python3 familyrelation.py
+$ sudo apt install libreoffice-script-provider-python
+
 ```
+-les scripts sont dans /usr/lib64/libreoffice/share/Scripts/python
+ou ~/.config/libreoffice/4/user/Scripts/python
 - lancer:
 ```
 $ sh mysite.sh
@@ -18,3 +18,4 @@ $ sh mysite.sh
 
 
 # hometown-photos
+# beyond-practicing-buro

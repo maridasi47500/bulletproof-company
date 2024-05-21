@@ -1,3 +1,0 @@
-{"member":[
-	<%=render_collection(collection=params['members'], partial='welcome/_member.json', as_='member')%>
-]}

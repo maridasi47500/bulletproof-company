@@ -82,7 +82,7 @@ longitude text,
         try:
             if params["password"] == params["passwordconfirmation"]:
                  del myhash["passwordconfirmation"]
-                 self.cur.execute("insert into user (username,email,country_id,phone,password) values (:username,:email,:country_id,:phone,:password)",myhash)
+                 self.cur.execute("insert into user (sex,username,email,country_id,phone,password) values (:sex,:username,:email,:country_id,:phone,:password)",myhash)
                  self.con.commit()
                  myid=str(self.cur.lastrowid)
 

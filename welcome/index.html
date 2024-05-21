@@ -1,4 +1,13 @@
-<div class="row row-cols-1 row-cols-md-2 g-4">
-<%=render_collection(collection=db.Photo.getall(), partial='welcome/_somephoto.html', as_='photo')%>
-
+<div id="overlay">
+<div id="text">
 </div>
+</div>
+<p> vous pouvez lancer
+
+<a href="" onclick="$.ajax({url:'/buromusicien',type:'post'});return false;"> ajouter l'option bulletproof musician à word,excel,powerpoint 
+</a>
+puis chercher l'option dans outils/macro/gerer lesmacros/python
+
+</p>
+
+<%="" if session["user_id"] == "" else Fichier("./welcome","localisation.html").lire() %>
