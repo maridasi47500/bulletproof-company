@@ -1,6 +1,7 @@
 <div id="overlay">
 		<%user=db.User.getbyid(session["user_id"])%>
         <div id="text">
+
 		<img src="/uploads/<%=user["country_id"]%>_<%=user["sex"]%>_<%=user["id"]%>_Profilepic.jpg" width=200 height=200/>
                 <p>
                 cette personne est à proximité, c'est bien ça ?
@@ -21,9 +22,11 @@
 </div>
 <div id="overlay1">
         <div id="text1">
+		<a href="/shootvid">
 
 		<img src="/uploads/<%=user["country_id"]%>_<%=user["sex"]%>_<%=user["id"]%>_Profilepic.jpg" width=200 height=200/>
 poste 1 vid pour t'inscrire à 
 beyond practicing
+		</a>
         </div>
 </div>

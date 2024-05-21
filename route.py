@@ -14,7 +14,7 @@ from lignecommande import Lignecommande
 class Route():
     def __init__(self):
         self.dbUsers=User()
-        self.Program=Directory("Beyong practicing")
+        self.Program=Directory("Beyond practicing")
         self.Program.set_path("./")
         self.mysession={"notice":None,"email":None,"name":None}
         self.render_figure=RenderFigure(self.Program)
@@ -99,52 +99,8 @@ class Route():
           self.set_notice("erreur quand vous avez envoyé le formulaire")
         self.render_figure.set_param("search",s)
         return self.render_figure.render_figure("welcome/voirsearch.html")
-    def createlink(self,search):
-        myparam=self.get_post_data()(params=("member_id","relationship_id","user_id",))
-        hi=self.db.Userfamily.create(myparam)
-        if hi:
-          self.set_notice("votre lien de famille a été ajouté(e)")
-        else:
-          self.set_notice("erreur quand vous avez envoyé le formulaire")
-        return self.render_some_json("welcome/mypic.json")
-    def createjob(self,search):
-        myparam=self.get_post_data()(params=("member_id","job_id","lat","lon",))
-        hi=self.db.Myjob.create(myparam)
-        if hi["myjob_id"]:
-          self.set_notice("le job de votre ami(e) a été ajouté")
-          self.render_figure.set_param("redirect",("/membrefamille/"+hi["photo_id"]))
-        else:
-          self.set_notice("erreur quand vous avez envoyé le formulaire")
-          self.render_figure.set_param("redirect","/")
-        return self.render_some_json("welcome/redirect.json")
-    def createphotojob(self,search):
-        myparam=self.get_post_data()(params=("description","job_id","userfamily_id","filename","lat","lon",))
-        hi=self.db.Photo.createphotojob(myparam)
-        if hi["photo_id"]:
-          self.set_notice("votre photo a été ajouté(e)")
-          self.render_figure.set_param("redirect",("/voirphoto/"+hi["photo_id"]))
-        else:
-          self.set_notice("erreur quand vous avez envoyé le formulaire")
-          self.render_figure.set_param("redirect","/")
-        return self.render_some_json("welcome/redirect.json")
-    def createphoto(self,search):
-        myparam=self.get_post_data()(params=("description","userfamily_id","filename","lat","lon",))
-        hi=self.db.Photo.create(myparam)
-        if hi["photo_id"]:
-          self.set_notice("votre photo a été ajouté(e)")
-          self.render_figure.set_param("redirect",("/voirphoto/"+hi["photo_id"]))
-        else:
-          self.set_notice("erreur quand vous avez envoyé le formulaire")
-          self.render_figure.set_param("redirect","/")
-        return self.render_some_json("welcome/redirect.json")
-    def createmember(self,search):
-        myparam=self.get_post_data()(params=("name","sex","lat","lon",))
-        hi=self.db.Member.create(myparam)
-        if hi:
-          self.set_notice("votre member ("+hi["name"]+") a été ajouté(e)")
-        else:
-          self.set_notice("erreur quand vous avez envoyé le formulaire")
-        return self.render_some_json("welcome/mypic.json")
+    def shootvid(self,search):
+        return self.render_figure.render_figure("welcome/shootvid.html")
     def mydiv(self,search):
         myparam=self.get_some_post_data(params=("div1","user_id"))
         hi=self.db.Link.find_by_url(url=myparam["div1"],user_id=myparam["user_id"])
@@ -295,18 +251,6 @@ class Route():
         print("hello action")
         self.render_figure.set_param("url","/whatismyip")
         return self.render_some_json("welcome/myurl.json")
-    def whatismyip(self,search):
-        print("hello action")
-        print("hello action")
-        self.render_figure.set_param("ip","haha")
-        print("hello action")
-        return self.render_figure.render_figure("welcome/myip.html")
-    def membrefamille(self,search):
-        print("hello action")
-        print("hello action")
-        self.render_figure.set_param("membres",self.db.Userfamily.getallbyuserid(self.Program.get_session_param("user_id")))
-        print("hello action")
-        return self.render_figure.render_figure("welcome/membrefamille.html")
     def hello(self,search):
         print("hello action")
         print("hello action")
@@ -402,13 +346,6 @@ class Route():
             self.set_json("{\"redirect\":\"/youbank\"}")
             print("session login",self.Program.get_session())
         return self.render_figure.render_json()
-    def addlink(self,search): 
-        return self.render_figure.render_figure("ajouter/addlink.html")
-    def addmember(self,search): 
-        return self.render_figure.render_figure("ajouter/member.html")
-    def carnetdadresses(self,search):
-        self.render_figure.set_param("address",self.db.Address.getall())
-        return self.render_figure.render_figure("ajouter/carnetdadresses.html")
     def addband(self,search):
 
         return self.render_figure.render_figure("ajouter/band.html")
@@ -529,22 +466,14 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            '^/shootvid$': self.shootvid,
             "^/chercherimage/([fm])/([0-9]+)$":self.chercherimage,
 
             "^/ajouterjob/([0-9]+)$":self.ajouterjob,
             "^/voirphoto/([0-9]+)$":self.voirphoto,
             '^/buromusicien$': self.buromusicien,
-            '^/createjob$': self.createjob,
-            '^/createphotojob$': self.createphotojob,
-            '^/createphoto$': self.createphoto,
-            '^/membrefamille$': self.membrefamille,
-            '^/createlink$': self.createlink,
-            '^/addlink$': self.addlink,
-            '^/createmember$': self.createmember,
-            '^/addmember$': self.addmember,
             '^/search$': self.search,
             '^/downloadpost$': self.downloadpost,
-            '^/whatismyip$': self.whatismyip,
             '^/updatelocation$': self.updatelocation,
             '^/aboutme$': self.aboutme,
             '^/sign_in$': self.signin,
