@@ -3,6 +3,9 @@ import sqlite3
 import sys
 import re
 from model import Model
+import requests
+from bs4 import BeautifulSoup
+import urllib.request
 class User(Model):
     def __init__(self):
         self.con=sqlite3.connect(self.mydb)
@@ -79,12 +82,20 @@ longitude text,
         print(myhash,myhash.keys())
         myid=None
         azerty={}
+
+
+
         try:
             if params["password"] == params["passwordconfirmation"]:
                  del myhash["passwordconfirmation"]
+                 del myhash["someurl"]
                  self.cur.execute("insert into user (sex,username,email,country_id,phone,password) values (:sex,:username,:email,:country_id,:phone,:password)",myhash)
                  self.con.commit()
                  myid=str(self.cur.lastrowid)
+                 opener=urllib.request.build_opener()
+                 opener.addheaders=[('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582')]
+                 urllib.request.install_opener(opener)
+                 urllib.request.urlretrieve(params["someurl"], f'./uploads/'+str(myhash["country_id"])+"_"+str(myhash["sex"])+'_'+str(myid)+'_Profilepic.jpg')
 
                  azerty["notice"]="votre user a été ajouté"
             else:

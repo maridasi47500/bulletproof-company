@@ -207,8 +207,10 @@ class RenderFigure():
         try:
           self.body+=open(os.path.abspath(self.path+"/"+filename),"r").read()
           if self.mytemplate is not None:
-              self.body= open(os.path.abspath(self.mytemplate),"r").read().format(debutmots=self.title, mot=self.headingone,plusdemot=self.body)
+            self.body= open(os.path.abspath(self.mytemplate),"r").read().format(debutmots=self.title, mot=self.headingone,plusdemot=self.body)
           self.body=self.render_body()
+          while "<%" in self.body and "%>" in self.body:
+            self.body=self.render_body()
           print("render figure bon")
           try:
             return self.body.encode("utf-8")

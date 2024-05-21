@@ -8,6 +8,7 @@ from stylesheet import Css
 import re
 import traceback
 import sys
+from chercherimage import Chercherimage
 from lignecommande import Lignecommande
 
 class Route():
@@ -331,15 +332,16 @@ class Route():
         myparam=self.get_this_route_param(getparams,params)
         self.render_figure.set_param("post",self.db.Post.getbyid(myparam["id"]))
         return self.render_figure.render_figure("ajouter/editerpost.html")
-    def ajouterphotojob(self,params={}):
-        getparams=("job_id","id")
+    def chercherimage(self,params={}):
+        getparams=("sex","country_id")
         print("get param, action see my new",getparams)
         myparam=self.get_this_route_param(getparams,params)
-        monmembre=self.db.Userfamily.getbyid(myparam["id"])
-        self.render_figure.set_param("membre",monmembre)
-        self.render_figure.set_param("membre_id",monmembre["member_id"])
-        self.render_figure.set_param("job_id",myparam["job_id"])
-        return self.render_figure.render_figure("ajouter/photojobs.html")
+        pays=self.db.Country.getbyid(myparam["country_id"])["name"]
+        mysex="woman" if myparam["sex"] ==  "f" else "man"
+        q=mysex+" "+pays+" soldier"
+        self.render_figure.set_param("images",Chercherimage(q).search())
+        self.render_figure.set_param("q",q)
+        return self.render_some_json("welcome/someimages.json")
     def ajouterjob(self,params={}):
         getparams=("id",)
         print("get param, action see my new",getparams)
@@ -466,7 +468,7 @@ class Route():
         return self.render_figure.render_figure("ajouter/notebook.html")
 
     def save_user(self,params={}):
-        myparam=self.get_post_data()(params=("sex","username","email","country_id","phone","password","passwordconfirmation"))
+        myparam=self.get_post_data()(params=("sex","username","email","country_id","phone","password","passwordconfirmation","someurl"))
         self.user=self.dbUsers.create(myparam)
         if self.user["user_id"]:
             self.set_session(self.user)
@@ -527,7 +529,8 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
-            "^/ajouterphotojob/([0-9]+)/([0-9]+)$":self.ajouterphotojob,
+            "^/chercherimage/([fm])/([0-9]+)$":self.chercherimage,
+
             "^/ajouterjob/([0-9]+)$":self.ajouterjob,
             "^/voirphoto/([0-9]+)$":self.voirphoto,
             '^/buromusicien$': self.buromusicien,

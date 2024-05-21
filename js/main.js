@@ -7,8 +7,7 @@ if (window.location.pathname === "/" && latuser.innerHTML === "" && lonuser.inne
 var map = L.map('map').setView([latitude, longitude], 13);
 btnlocation.dataset.latitude=latitude;
 btnlocation.dataset.longitude=longitude;
-overlay.style.display='block';
-overlay1.style.display='block';
+$("#overlay, #overlay1").attr("style",'display:block;');
 L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -172,6 +171,25 @@ fd.set("userid",btnlocation.dataset.userid);
 
 }
 $(document).ready(function () {
+$("#pays_telephone, [name=sex]").change(function(){
+
+	var url="/chercherimage/"+$("[name=sex]:checked").val()+"/"+$("#pays_telephone").val();
+	console.log(url);
+	$.ajax({url:url,
+		success:function(data){
+			var pic=data.images;
+	$(someurl).html("<p>"+data.q+"</p>");
+			for (var i=0;i<pic.length;i++){
+	$(someurl).append(`
+	<div class="champ">
+	<input id="image${i+1}" ${i == 0 ? "checked" : ""} value="${pic[i].src}" name="someurl" type="radio"/>
+	<label for="image${i+1}"><img src="${pic[i].src}" width=200 height=200 />image ${i+1}</label>
+	</div>
+		`
+	);
+			}
+		}});
+})
       $('.someselect').selectize({
           sortField: 'text'
       });
