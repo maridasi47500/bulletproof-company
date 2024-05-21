@@ -1,9 +1,10 @@
 - bienvenue à bulletproof musician buro
 
+- lancer (optionnel):
 ```
 $ python3 addcountry.py
 ```
-- pour ajouter tous les membres de famille
+- lancer (optionnel):
 ```
 $ sudo apt install libreoffice-script-provider-python
 
