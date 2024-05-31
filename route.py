@@ -14,7 +14,7 @@ from lignecommande import Lignecommande
 class Route():
     def __init__(self):
         self.dbUsers=User()
-        self.Program=Directory("Beyond practicing")
+        self.Program=Directory("United bulletproof enterprise")
         self.Program.set_path("./")
         self.mysession={"notice":None,"email":None,"name":None}
         self.render_figure=RenderFigure(self.Program)
@@ -37,12 +37,6 @@ class Route():
         print("set session",x)
         self.Program.set_my_session(x)
         self.render_figure.set_session(self.Program.get_session())
-    def buromusicien(self,search):
-        hi=Lignecommande(myscript="Buro du musicien")
-        hi.ligne(lignecommande="sh monscript/Heythere.sh")
-        hi.run()
-        self.set_notice("ok pour le script")
-        return self.render_some_json("welcome/hey.json")
 
     def set_redirect(self,x):
         self.Program.set_redirect(x)
@@ -405,7 +399,7 @@ class Route():
         return self.render_figure.render_figure("ajouter/notebook.html")
 
     def save_user(self,params={}):
-        myparam=self.get_post_data()(params=("sex","username","email","country_id","phone","password","passwordconfirmation","someurl"))
+        myparam=self.get_post_data()(params=("sex","username","email","country_id","phone","password","passwordconfirmation","someurl","job","facebooktoken"))
         self.user=self.dbUsers.create(myparam)
         if self.user["user_id"]:
             self.set_session(self.user)
@@ -414,14 +408,23 @@ class Route():
         else:
             self.set_json("{\"redirect\":\"/\"}")
             return self.render_figure.render_json()
-    def joueraujeu(self,params={}):
-        self.set_json("{\"redirect\":\"/signin\"}")
-        getparams=("song_id","jeu_id")
-        myparam=self.get_post_data()(params=getparams)
-        self.set_session_params(myparam)
-        #self.set_redirect("/signin")
-        #return self.render_figure.render_redirect()
-        return self.render_figure.render_my_json("{\"redirect\":\"/signin\"}")
+    def somepost(self,params={}):
+        myparam=self.get_post_data()(params=("message","user_id"))
+        graph = facebook.GraphAPI(access_token=self.db.User.getbyid(myparam["user_id"])["facebooktoken"])
+        print(graph)
+        #to post to your wall
+        graph.put_object("me", "feed", message=myparam["message"])
+        #to get your posts/feed
+        feed = graph.get_connections("me", "feed")
+        post = feed["data"]
+        print post
+        if self.user["user_id"]:
+            self.set_session(self.user)
+            self.set_json("{\"redirect\":\"/aboutme\"}")
+            return self.render_figure.render_json()
+        else:
+            self.set_json("{\"redirect\":\"/aboutme\"}")
+            return self.render_figure.render_json()
     def run(self,redirect=False,redirect_path=False,path=False,session=False,params={},url=False,post_data=False):
         if post_data:
             print("post data")
@@ -466,12 +469,11 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
-            '^/shootvid$': self.shootvid,
+            '^/somepost$': self.somepost,
             "^/chercherimage/([fm])/([0-9]+)$":self.chercherimage,
 
             "^/ajouterjob/([0-9]+)$":self.ajouterjob,
             "^/voirphoto/([0-9]+)$":self.voirphoto,
-            '^/buromusicien$': self.buromusicien,
             '^/search$': self.search,
             '^/downloadpost$': self.downloadpost,
             '^/updatelocation$': self.updatelocation,

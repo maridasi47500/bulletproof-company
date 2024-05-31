@@ -4,4 +4,4 @@
 
 <p>Dans cette entreprise, heures : 	
 9h &#128344; - 5pm &#128340;</p>
-<%="" if session["user_id"] == "" else Fichier("./welcome","message.html").lire() %>
+<%="" if session["user_id"] == "" else Fichier("./welcome",".html").lire() %>

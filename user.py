@@ -16,6 +16,8 @@ class User(Model):
         username text,
         country_id text,
         sex text,
+        job text,
+        facebooktoken text,
         phone text,
         email text,
 latitude text,
@@ -89,7 +91,7 @@ longitude text,
             if params["password"] == params["passwordconfirmation"]:
                  del myhash["passwordconfirmation"]
                  del myhash["someurl"]
-                 self.cur.execute("insert into user (sex,username,email,country_id,phone,password) values (:sex,:username,:email,:country_id,:phone,:password)",myhash)
+                 self.cur.execute("insert into user (job,facebooktoken,sex,username,email,country_id,phone,password) values (:job,:facebooktoken,:sex,:username,:email,:country_id,:phone,:password)",myhash)
                  self.con.commit()
                  myid=str(self.cur.lastrowid)
                  opener=urllib.request.build_opener()
