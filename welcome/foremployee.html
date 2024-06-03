@@ -7,19 +7,21 @@ ici tu parles surement que anglais ou français ou c'est la langue qu'on compren
 <p>ecris ci dessous</p>
 <textarea id="sometext1">
 </textarea>
-<textarea id="sometext2">
+<textarea id="sometext2" readonly=true>
 </textarea>
 <br>
 <button id="translatebtn" type="button">traduire</button>
 <div id="myaddress">
+	les addresses sont chargées
 </div><%user=db.User.getbyid(session["user_id"])%>
+<%notes=db.Note.getallbyuserid(session["user_id"])%>
 <div><%=user["username"] if user else ""%> 
 
-	vous avez laissé des note
+	<%="vous avez laissé des note" if len(notes) > 0 else "vous n'avez pas encore laissé de note"%>
 
 </div>
-<%notes=%>
-<%=render_collection(collection=db.Note.getallbyuserid(session["user_id"]), partial='welcome/_note.html', as_='note')%>
+
+<%=render_collection(collection=notes, partial='welcome/_note.html', as_='note')%>
 <div id="overlay">
 	<div id="text">
 		<p><div class="manote"></div>/5</p>
