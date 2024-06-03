@@ -65,11 +65,14 @@ longitude text,
           row["user_id"]=""
         return row
     def getbyid(self,myid):
-        self.cur.execute("select * from user where id = ?",(myid,))
-        row=dict(self.cur.fetchone())
-        print(row["id"], "row id")
-        job=self.cur.fetchall()
-        return row
+        try:
+           self.cur.execute("select * from user where id = ?",(myid,))
+           row=dict(self.cur.fetchone())
+           print(row["id"], "row id")
+           job=self.cur.fetchall()
+           return row
+        except:
+           return None
     def create(self,params):
         print("ok")
         myhash={}

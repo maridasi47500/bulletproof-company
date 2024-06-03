@@ -11,3 +11,17 @@ ici tu parles surement que anglais ou français ou c'est la langue qu'on compren
 </textarea>
 <br>
 <button id="translatebtn" type="button">traduire</button>
+<div id="myaddress">
+</div><%user=db.User.getbyid(session["user_id"])%>
+<div><%=user["pseudo"] if user else ""%> vous avez laissé des note</div>
+<%=render_collection(collection=db.Note.getallbyuserid(session["user_id"]), partial='welcome/_note.html', as_='note')%>
+<div id="overlay">
+	<div id="text">
+		<p><div class="manote"></div>/5</p>
+		<p class="monadresse"></p>
+		
+<button type="button" id="envoyernote">envoyer la note</button>
+<button type="button" onclick="overlay.style.display='none';">fermer</button>
+
+</div>
+</div>

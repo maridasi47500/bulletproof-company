@@ -275,13 +275,20 @@ class Route():
         myparam=self.get_this_route_param(getparams,params)
         self.render_figure.set_param("post",self.db.Post.getbyid(myparam["id"]))
         return self.render_figure.render_figure("ajouter/editerpost.html")
+    def sauvernote(self,params={}):
+        print(params)
+        search=self.get_some_post_data(params=("note","address","userid",))
+        print(search)
+        print("action translation")
+        x=self.db.Note.create(search)
+        return self.render_some_json("welcome/redirect.json")
     def location(self,params={}):
         print(params)
         search=self.get_some_post_data(params=("lat","lon",))
         print(search)
         print("action translation")
-        self.render_figure.set_param("bar",Geolocation("bar","30").geolocate(search["lat"],search["lon"]))
-        self.render_figure.set_param("restaurant",Geolocation("restaurant","30").geolocate(search["lat"],search["lon"]))
+        self.render_figure.set_param("bar",Geolocation("bar",300.0).geolocate(search["lat"],search["lon"]))
+        self.render_figure.set_param("restaurant",Geolocation("restaurant",300.0).geolocate(search["lat"],search["lon"]))
         return self.render_some_json("welcome/location.json")
     def translate(self,params={}):
         print(params)
@@ -485,6 +492,7 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            '^/sauvernote$': self.sauvernote,
             '^/location$': self.location,
             '^/translate$': self.translate,
             '^/foremployee$': self.foremployee,

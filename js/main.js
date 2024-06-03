@@ -9,7 +9,31 @@ if (window.location.pathname === "/foremployee" && latuser.innerHTML === "" && l
 		  data:{lat:latitude,lon:longitude},
 		  type:'post',
 		  success:function(data){
+			  var x=data.location;
+			  myaddress.innerHTML="";
+			  for (var y=0;y<x.length;y++){
+			  myaddress.innerHTML+="<form class=\"message\">j'ai déjà visité<span class=\"someaddress\">"+x[y].name+"</span><input value=\"&#9733;\" name=\"etoile1\" class=\"btn btn-link\" type=\"submit\" /><input value=\"&#9733;\" name=\"etoile2\" class=\"btn btn-link\" type=\"submit\" /><input value=\"&#9733;\" name=\"etoile3\" class=\"btn btn-link\" type=\"submit\" /><input value=\"&#9733;\" name=\"etoile4\" class=\"btn btn-link\" type=\"submit\" /><input value=\"&#9733;\" name=\"etoile5\" class=\"btn btn-link\" type=\"submit\" /></form>";
+			  }
+			  $(".message").submit(function(){
+				  return false;
+			  });
+			  $(".message input[type='submit']").click(function(){
+				  var note = ($(this)[0].name.replace("etoile",""));
+				  var address = ($($(this)[0].parentElement).children(".someaddress").html());
+				  $(".manote").html(note);
+				  $(".monadresse").html(address);
+				  overlay.style.display="block";
+				  return false;
+			  });
 		  }
+	  });
+	  $("#envoyernote").click(function(){
+		  $.ajax({url:"/sauvernote",
+			  type:"post",
+			  data:{note:$(".manote").html(),address:$(".monadresse").html(),userid:myuserid.innerHTML},
+			  success:function(){
+			  }});
+		  return false;
 	  });
 
   });

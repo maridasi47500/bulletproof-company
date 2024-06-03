@@ -1,4 +1,4 @@
-{"pres":[
+{"location":[
 <%=render_collection(collection=params['bar'], partial='welcome/_bar.json', as_='user')%>
 <%=render_collection(collection=params['restaurant'], partial='welcome/_restaurant.json', as_='user')%>
 ]}
