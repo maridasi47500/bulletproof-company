@@ -1,4 +1,12 @@
 <h3>poste 1 message</h3>
 <form action="/somepost" method="post">
 	<input type="hidden" name="user_id" value="<%=session["user_id"]%>"/>
+	<div class="field">
+		<label for="somemessage"></label>
+	<textarea  id="somemessage" name="message">
+	</textarea>
+	</div>
+	<div class="field">
+	<input type="submit" name="poster" value="poster le message" />
+	</div>
 </form>

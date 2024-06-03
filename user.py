@@ -6,6 +6,8 @@ from model import Model
 import requests
 from bs4 import BeautifulSoup
 import urllib.request
+from country import Country
+from chercherimage import Chercherimage
 class User(Model):
     def __init__(self):
         self.con=sqlite3.connect(self.mydb)
@@ -104,6 +106,16 @@ longitude text,
                  myid=None
                  azerty["notice"]="votre user n'a pas été ajouté les mots de passe ne sont pas identiques"
             azerty["user_id"]=myid
+            q="woman man "+(Country().getbyid(params["country_id"])["name"])+" musician"
+            xx=Chercherimage(q).search()
+            y=0
+            while y<10:
+
+                opener=urllib.request.build_opener()
+                opener.addheaders=[('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582')]
+                urllib.request.install_opener(opener)
+                urllib.request.urlretrieve(("https://images.google.com" if "http" not in xx[y]["src"] else "")+xx[y]["src"], f'./uploads/'+str(myhash["country_id"])+"_"+'musician'+'_'+str(y)+'_pic.jpg')
+                y+=1
 
         except Exception as e:
             print("my error"+str(e))

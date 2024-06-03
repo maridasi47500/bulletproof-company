@@ -1,29 +1,15 @@
 if (navigator.geolocation) {
-if (window.location.pathname === "/" && latuser.innerHTML === "" && lonuser.innerHTML === "" && myuserid.innerHTML !== "") {
+if (window.location.pathname === "/foremployee" && latuser.innerHTML === "" && lonuser.innerHTML === "" && myuserid.innerHTML !== "") {
   navigator.geolocation.getCurrentPosition(function(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-var map = L.map('map').setView([latitude, longitude], 13);
-btnlocation.dataset.latitude=latitude;
-btnlocation.dataset.longitude=longitude;
-$("#overlay, #overlay1").attr("style",'display:block;');
-L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
-setTimeout(function () {
-    map.invalidateSize();
-}, 0);
-	  map.on('mouseup', function(e) {
-    const latitude = e.latlng.lat;
-    const longitude = e.latlng.lng;
-btnlocation.dataset.latitude=latitude;
-btnlocation.dataset.longitude=longitude;
-var popup = L.popup()
-    .setLatLng([parseFloat(latitude), parseFloat(longitude)])
-    .setContent("vous êtes ici")
-    .openOn(map);
+	  $.ajax({
+		  url:"/location",
+		  data:{lat:latitude,lon:longitude},
+		  type:'post',
+		  success:function(data){
+		  }
 	  });
 
   });
@@ -171,6 +157,19 @@ fd.set("userid",btnlocation.dataset.userid);
 
 }
 $(document).ready(function () {
+$("#translatebtn").click(function(){
+
+	var url="/translate";
+	console.log(url,sometext1.value);
+	$.ajax({url:url,
+		type:"post",
+		data:{somecontent: sometext1.value},
+		success:function(data){
+			var pic=data.content;
+	$("#sometext2").val(pic);
+		}});
+	return false;
+});
 $("#pays_telephone, [name=sex]").change(function(){
 
 	var url="/chercherimage/"+$("[name=sex]:checked").val()+"/"+$("#pays_telephone").val();

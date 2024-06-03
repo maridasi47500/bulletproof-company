@@ -10,6 +10,8 @@ import traceback
 import sys
 from chercherimage import Chercherimage
 from lignecommande import Lignecommande
+from translate import Translate
+from geolocation import Geolocation
 
 class Route():
     def __init__(self):
@@ -245,6 +247,9 @@ class Route():
         print("hello action")
         self.render_figure.set_param("url","/whatismyip")
         return self.render_some_json("welcome/myurl.json")
+    def foremployee(self,search):
+        print("for employee action")
+        return self.render_figure.render_figure("welcome/foremployee.html")
     def hello(self,search):
         print("hello action")
         print("hello action")
@@ -270,6 +275,21 @@ class Route():
         myparam=self.get_this_route_param(getparams,params)
         self.render_figure.set_param("post",self.db.Post.getbyid(myparam["id"]))
         return self.render_figure.render_figure("ajouter/editerpost.html")
+    def location(self,params={}):
+        print(params)
+        search=self.get_some_post_data(params=("lat","lon",))
+        print(search)
+        print("action translation")
+        self.render_figure.set_param("bar",Geolocation("bar","30").geolocate(search["lat"],search["lon"]))
+        self.render_figure.set_param("restaurant",Geolocation("restaurant","30").geolocate(search["lat"],search["lon"]))
+        return self.render_some_json("welcome/location.json")
+    def translate(self,params={}):
+        print(params)
+        search=self.get_some_post_data(params=("somecontent",))
+        print(search)
+        print("action translation")
+        self.render_figure.set_param("content",Translate(search["somecontent"]).detect_and_translate("en"))
+        return self.render_some_json("welcome/content.json")
     def chercherimage(self,params={}):
         getparams=("sex","country_id")
         print("get param, action see my new",getparams)
@@ -417,14 +437,10 @@ class Route():
         #to get your posts/feed
         feed = graph.get_connections("me", "feed")
         post = feed["data"]
-        print post
-        if self.user["user_id"]:
-            self.set_session(self.user)
-            self.set_json("{\"redirect\":\"/aboutme\"}")
-            return self.render_figure.render_json()
-        else:
-            self.set_json("{\"redirect\":\"/aboutme\"}")
-            return self.render_figure.render_json()
+        print(post)
+        self.set_session({"notice":"le message a bien été envoyé"})
+        self.set_json("{\"redirect\":\"/aboutme\"}")
+        return self.render_figure.render_json()
     def run(self,redirect=False,redirect_path=False,path=False,session=False,params={},url=False,post_data=False):
         if post_data:
             print("post data")
@@ -469,6 +485,10 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            '^/location$': self.location,
+            '^/translate$': self.translate,
+            '^/foremployee$': self.foremployee,
+
             '^/somepost$': self.somepost,
             "^/chercherimage/([fm])/([0-9]+)$":self.chercherimage,
 
