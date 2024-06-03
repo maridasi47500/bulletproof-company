@@ -30,8 +30,9 @@ if (window.location.pathname === "/foremployee" && latuser.innerHTML === "" && l
 	  $("#envoyernote").click(function(){
 		  $.ajax({url:"/sauvernote",
 			  type:"post",
-			  data:{note:$(".manote").html(),address:$(".monadresse").html(),userid:myuserid.innerHTML},
+			  data:{note:$(".manote").html(),address:$(".monadresse").html(),user_id:myuserid.innerHTML},
 			  success:function(){
+				  alert("vous avez envoyé la note");
 			  }});
 		  return false;
 	  });

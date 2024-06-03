@@ -277,10 +277,11 @@ class Route():
         return self.render_figure.render_figure("ajouter/editerpost.html")
     def sauvernote(self,params={}):
         print(params)
-        search=self.get_some_post_data(params=("note","address","userid",))
+        search=self.get_some_post_data(params=("note","address","user_id",))
         print(search)
         print("action translation")
         x=self.db.Note.create(search)
+        self.render_figure.set_param("redirect","/")
         return self.render_some_json("welcome/redirect.json")
     def location(self,params={}):
         print(params)

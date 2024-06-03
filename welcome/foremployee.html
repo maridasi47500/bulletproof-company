@@ -13,7 +13,12 @@ ici tu parles surement que anglais ou français ou c'est la langue qu'on compren
 <button id="translatebtn" type="button">traduire</button>
 <div id="myaddress">
 </div><%user=db.User.getbyid(session["user_id"])%>
-<div><%=user["pseudo"] if user else ""%> vous avez laissé des note</div>
+<div><%=user["username"] if user else ""%> 
+
+	vous avez laissé des note
+
+</div>
+<%notes=%>
 <%=render_collection(collection=db.Note.getallbyuserid(session["user_id"]), partial='welcome/_note.html', as_='note')%>
 <div id="overlay">
 	<div id="text">
