@@ -250,6 +250,8 @@ class Route():
     def foremployee(self,search):
         print("for employee action")
         return self.render_figure.render_figure("welcome/foremployee.html")
+    def career(self,search):
+        return self.render_figure.render_figure("welcome/career.html")
     def hello(self,search):
         print("hello action")
         print("hello action")
@@ -493,6 +495,7 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            '^/career$': self.career,
             '^/sauvernote$': self.sauvernote,
             '^/location$': self.location,
             '^/translate$': self.translate,
